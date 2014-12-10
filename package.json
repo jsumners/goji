@@ -1,0 +1,38 @@
+{
+  "name": "goji",
+  "version": "0.1.0",
+  "description": "An HTML templating engine inspired by Thymeleaf",
+  "main": "goji.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "James Sumners",
+  "license": "MIT",
+  "keywords": [
+    "template",
+    "templating",
+    "thymeleaf",
+    "html",
+    "hapi",
+    "hapijs"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jsumners/goji.git"
+  },
+  "homepage": "https://github.com/jsumners/goji",
+  "bugs": {
+    "url": "https://github.com/jsumners/goji/issues"
+  },
+  "dependencies": {
+    "cheerio": "^0.18.0",
+    "exprjs": "0.0.3"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-github-pages": "0.0.4",
+    "grunt-shell": "^1.1.1",
+    "jsdoc": "^3.3.0-alpha11",
+    "load-grunt-tasks": "^1.0.0"
+  }
+}
