@@ -92,7 +92,7 @@ the expression:
     bar: [1, 2, 3]
   },
   foobar: function foobar() {
-    return 'result of foobar()`;
+    return 'result of foobar()';
   },
   bar: 'bar',
   baz: 42
@@ -122,7 +122,7 @@ The rendered template would be:
 
 ### g-include
 `g-include` inserts the content of a fragment in place of the element's
-content. The value of `g-include` is a simple identifier that in the form
+content. The value of `g-include` is a simple identifier in the form
 `[templateName]::[fragmentId]`. For example, given the following HTML:
 
 ```html
