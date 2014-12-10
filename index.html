@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>Goji</h1><p><em>Goji</em> is a template engine for <a href="https://nodejs.org/">Node.js</a> that conforms 
+to the <a href="https://hapijs.com/">Hapi</a> view engine requirements.</p>
+<p><em>Goji</em> was inspired by <a href="https://www.thymeleaf.org/">Thymeleaf</a>. The name was
+picked from Wikipedia's <a href="https://en.wikipedia.org/wiki/Category:Herbs">list of herbs</a>
+based on whimsy and availability.</p>
+<p><em>Goji's</em> templates are (mostly) valid HTML. <em>Goji</em> templates rely on custom
+attributes that are replaced during the compilation and rendering process.</p>
+<h1>Install</h1><pre class="prettyprint source lang-bash"><code>$ npm install --save goji</code></pre><h1>Example</h1><h2>Template</h2><pre class="prettyprint source lang-html"><code>&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>&lt;/head>
+&lt;body>
+
+  &lt;div g-text=&quot;foo.bar&quot;>This should be replaced with the value of foo.bar&lt;/div>
+  &lt;div g-text=&quot;foobar()&quot;>This should be replaced with the result of foobar()&lt;/div>
+  &lt;div g-text=&quot;answer === 41 ? foo.bar : 'nope'&quot;>&lt;/div>
+  &lt;div g-text=&quot;(answer === 42) ? foo.bar : 'nope'&quot;>&lt;/div>
+
+&lt;/body>
+&lt;/html></code></pre><h2>Processing</h2><pre class="prettyprint source lang-javascript"><code>var goji = require('goji');
+var fs = require('fs');
+var template = fs.readFileSync('./template.html');
+
+var renderer = goji.compile(template);
+var context = {
+  foo: {
+    bar: 'foo.bar'
+  },
+  foobar: function foobar() {
+    return 'foobar() invoked';
+  },
+  answer: 42
+};
+
+console.log(renderer(context));</code></pre><h1>Template Language</h1><p>As mentioned in the introduction, <em>Goji</em> uses custom attributes on standard
+HTML elements. Thus <em>Goji's</em> templating &quot;language&quot; is really just
+vanilla HTML.</p>
+<p>However, the values of those attributes are not standard. <em>Gogi's</em>
+attribute values are a mixture of a JavaScript expression language
+and simple identifiers.</p>
+<h2>Expression Language</h2><p><em>Goji's</em> expression language is a subset of vanilla JavaScript. It will
+evaluate simple calculations, ternary operations, object lookups, and
+invoke methods.</p>
+<p>Any time an expression is evaluated it is done so within a <em>context</em>. The
+context is a regular JavaScript object literal. For example, the following
+literal is a completely valid context that can be used as normal within
+the expression:</p>
+<pre class="prettyprint source lang-javascript"><code>{
+  foo: {
+    bar: [1, 2, 3]
+  },
+  foobar: function foobar() {
+    return 'result of foobar()`;
+  },
+  bar: 'bar',
+  baz: 42
+}</code></pre><p>The expression language used is
+<a href="https://github.com/jleibund/exprjs/">exprjs</a>. To see a complete rundown
+of the available expressions, view their
+<a href="https://github.com/jleibund/exprjs/blob/master/test/test-expr.js">test-expr.js</a>.</p>
+<h2>Supported Attributes</h2><h3>g-text</h3><p><code>g-text</code> substitutes the result of an expression in place of the element's
+content. For example, given the following HTML:</p>
+<pre class="prettyprint source lang-html"><code>&lt;p>Hello &lt;span g-text=&quot;'world'&quot;>??&lt;/span>!&lt;/p></code></pre><p>The rendered template would be:</p>
+<pre class="prettyprint source lang-html"><code>&lt;p>Hello &lt;span>world&lt;/span>!&lt;/p></code></pre><h3>g-include</h3><p><code>g-include</code> inserts the content of a fragment in place of the element's
+content. The value of <code>g-include</code> is a simple identifier that in the form
+<code>[templateName]::[fragmentId]</code>. For example, given the following HTML:</p>
+<pre class="prettyprint source lang-html"><code>&lt;div class=&quot;container&quot;>
+  &lt;div g-include=&quot;fooTemplate::#bar&quot;>This will be replaced&lt;/div>
+&lt;/div></code></pre><p><em>Goji</em> will look for a template file named &quot;fooTemplate&quot;, parse it, and then
+retrieve the content from an element with an <code>id</code> attribute value of &quot;bar&quot;.
+So, if fooTemplate's content is:</p>
+<pre class="prettyprint source lang-html"><code>&lt;p id=&quot;bar&quot;>bar's content&lt;/p></code></pre><p>Then the rendered template will be:</p>
+<pre class="prettyprint source lang-html"><code>&lt;div class=&quot;container&quot;>
+  &lt;div>bar's content&lt;/div>
+&lt;/div></code></pre><h3>g-replace</h3><p><code>g-replace</code> works much like <code>g-include</code>, the difference is that <code>g-replace</code>
+replaces the element on which it is an attribute. Thus, given the same
+example as in <code>g-include</code> the rendered template would be:</p>
+<pre class="prettyprint source lang-html"><code>&lt;div class=&quot;container&quot;>
+  &lt;p id=&quot;bar&quot;>bar's content&lt;/p>
+&lt;/div></code></pre><h1>License</h1><p><a href="http://jsumners.mit-license.org/">http://jsumners.mit-license.org</a></p>
+<p>THE MIT LICENSE (MIT) Copyright © 2014 James Sumners james.sumners@gmail.com</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Compiler.html">Compiler</a></li></ul><h3>Global</h3><ul><li><a href="global.html#basePath">basePath</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha11</a> on Tue Dec 09 2014 19:47:58 GMT-0500 (EST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
