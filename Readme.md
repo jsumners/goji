@@ -56,6 +56,15 @@ var context = {
 console.log(renderer(context));
 ```
 
+# Compiler Options
+
+By default, the compiler will look for templates with a file extension of
+".html" in an "html" directory that is in the same directory as your
+project's `node_modules` directory. If you need to change this behavior, you
+can use the
+[Compiler Options](http://jsumners.github.io/goji/Compiler.html#Options)
+object.
+
 # Template Language
 
 As mentioned in the introduction, *Goji* uses custom attributes on standard
