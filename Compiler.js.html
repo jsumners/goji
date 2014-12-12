@@ -39,8 +39,14 @@ var path = require('path');
 function basePath() {
   var _path = __dirname;
 
-  while (!fs.existsSync(_path + '/node_modules') || _path.substr(-4) === 'goji') {
-    _path = path.resolve(_path + '/..');
+  if (_path.indexOf('node_modules/goji') !== -1) {
+    while (!fs.existsSync(_path + '/node_modules') || _path.substr(-4) === 'goji') {
+      _path = path.resolve(_path + '/..');
+    }
+  } else {
+    while (!fs.existsSync(_path + '/node_modules')) {
+      _path = path.resolve(_path + '/..');
+    }
   }
 
   return _path;
@@ -82,6 +88,97 @@ Compiler.prototype = {
     templatesDir: path.resolve(basePath() + '/html'),
     templatesExt: '.html'
   }
+};
+
+/**
+ * &lt;p>Parses for elements that have a &lt;code>g-each&lt;/code> attribute and renders
+ * them. If the element also has a &lt;code>g-text&lt;/code> attribute, then the
+ * element is used as the template. Otherwise, the content of the parent
+ * element is used as the template. In either case, the final result will be
+ * that the parent element's content is replaced with the rendered template.&lt;/p>
+ *
+ * &lt;p>Additionally, an extra context will be present during the parsing of the
+ * template. This extra context is an object named &lt;code>iter&lt;/code>. It has a
+ * property &lt;code>i&lt;/code> that indicates the iteration number. It also has
+ * two boolean properties: &lt;code>odd&lt;/code> and &lt;code>even&lt;/code>. These two
+ * properties can be used as shortcuts to determine whether the iteration
+ * number is odd or even.&lt;/p>
+ *
+ * @param {object} $ A cheerio object that respresents the template
+ * @param {object} context The context for the template actions
+ * @param {object} gContext A context of extra information provided by Goji
+ * @returns {object} The modified cheerio object
+ * @since 0.2.0
+ * @private
+ */
+Compiler.prototype._each = function _each($, context, gContext) {
+  var self = this;
+  var iter = {
+    i: 0,
+    get odd() {
+      return (this.i % 2) !== 0;
+    },
+    get even() {
+      return (this.i % 2) === 0;
+    }
+  };
+
+  return $('[g-each]').each(function gEach(i, elem) {
+    // This thing is a mess
+    iter.i = 0;
+    var $elem = $(elem);
+    var parts = $elem.attr('g-each').split(' in ').map(function(val) {
+      return val.trim();
+    });
+
+    // Retrieve the desired array from the context
+    var expr = exprjs.parse(parts[1]);
+    var list = exprjs.run(expr, context, gContext);
+
+    // Evaluate the subsitution expression if it is directly on the element
+    var gText = $elem.attr('g-text');
+    if (gText) {
+      var expr2 = exprjs.parse($elem.attr('g-text'));
+      $elem.removeAttr('g-text');
+    }
+
+    $elem.removeAttr('g-each'); // remove it so we don't run it again
+    var varName = parts[0];
+    var _context = {};
+    _context[varName] = '';
+
+    // Prepare our target DOM nodes
+    var $parent = $elem.parent();
+    var $node = $elem.clone();
+    $parent.html('');
+
+    var iterRender = function(){};
+    if (gText) {
+      iterRender = function iterRender1(item) {
+        _context[varName] = item;
+        var result = exprjs.run(expr2, _context, iter);
+        $node.html(result);
+        $parent.append($node.clone());
+
+        iter.i += 1;
+      };
+    } else {
+      var innerTemplate = $node.html();
+      iterRender = function iterRender2(item) {
+        _context[varName] = item;
+        var result = self._render(innerTemplate, _context, iter);
+        $node.html(result);
+        $parent.append($node.clone());
+
+        iter.i += 1;
+      };
+    }
+
+    // Finally loop through and render
+    list.forEach(iterRender);
+
+    return $elem;
+  });
 };
 
 /**
@@ -178,15 +275,17 @@ Compiler.prototype._parse = function _parse(template) {
  * Used to run through all supported attributes of a compiled template and
  * perform their actions.
  *
- * @param template A template as compiled by {@link Compiler#_parse}
- * @param context The object to use as the context for actions
+ * @param {string} template A template as compiled by {@link Compiler#_parse}
+ * @param {object} context The object to use as the context for actions
+ * @param {object} gContext A context of extra information provided by Goji
  * @returns {string} The rendered template
  * @private
  */
-Compiler.prototype._render = function _render(template, context) {
+Compiler.prototype._render = function _render(template, context, gContext) {
   var $ = cheerio.load(template);
 
-  this._text($, context);
+  this._each($, context, gContext); // Should be parsed first
+  this._text($, context, gContext);
 
   return $.html();
 };
@@ -197,15 +296,16 @@ Compiler.prototype._render = function _render(template, context) {
  *
  * @param {object} $ A cheerio object that respresents the template
  * @param {object} context The context for the the template actions
+ * @param {object} gContext A context of extra information provided by Goji
  * @returns {object} The modified cheerio object
  * @private
  */
-Compiler.prototype._text = function _text($, context) {
+Compiler.prototype._text = function _text($, context, gContext) {
   return $('[g-text]').each(function(i, elem) {
     var $elem = $(elem);
     var expression = $elem.attr('g-text');
     var parsed = exprjs.parse(expression);
-    var result = exprjs.run(parsed, context);
+    var result = exprjs.run(parsed, context, gContext);
 
     $elem.text(result);
     $elem.attr('g-text', null);
@@ -282,7 +382,7 @@ exports = module.exports = Compiler;</code></pre>
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha11</a> on Tue Dec 09 2014 19:47:58 GMT-0500 (EST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha11</a> on Thu Dec 11 2014 22:11:19 GMT-0500 (EST)
 </footer>
 
 <script> prettyPrint(); </script>
