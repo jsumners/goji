@@ -9,6 +9,9 @@ var testScripts = grunt.file.expand({
 
 grunt.initConfig({
   shell: {
+    cleanDoc: {
+      command: 'rm -rf doc/*'
+    },
     doc: {
       command: './node_modules/.bin/jsdoc -c jsdoc.conf .'
     }
@@ -24,5 +27,5 @@ grunt.initConfig({
   }
 });
 
-grunt.registerTask('doc', ['shell:doc']);
+grunt.registerTask('doc', ['shell:cleanDoc', 'shell:doc']);
 grunt.registerTask('publishdoc', ['githubPages:target']);

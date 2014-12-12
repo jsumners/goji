@@ -120,6 +120,80 @@ The rendered template would be:
 <p>Hello <span>world</span>!</p>
 ```
 
+### g-each
+`g-each` is used to iterate over an array. It uses a simple expression to
+select the array and name the iteration variable. The expression is in
+the form `[iteration variable name] in [array name]`. For example:
+
+```html
+<ul>
+  <li g-each="item in items" g-text="item">placeholder</li>
+</ul>
+```
+
+If the context is:
+
+```javascript
+{items: ['list item 1', 'list item 2', 'list item 3']}
+```
+
+Then the rendered content would be:
+
+```html
+<ul>
+  <li>list item 1</li>
+  <li>list item 2</li>
+  <li>list item 3</li>
+</ul>
+```
+
+However, if the template is:
+
+```html
+<table>
+  <tr g-each="row in rows">
+    <td g-text="row.cell1">cell1</td>
+    <td g-text="row.cell2">cell2</td>
+  </tr>
+</table>
+```
+
+And the context is:
+
+```javascript
+{
+  rows: [
+    {cell1: 'r1c1', cell2: 'r1c2'},
+    {cell1: 'r2c1', cell2: 'r2c2'}
+  ]
+}
+```
+
+Then the rendered content would be:
+
+```html
+<table>
+  <tr>
+    <td>r1c1</td>
+    <td>r1c2</td>
+  </tr>
+  <tr>
+    <td>r2c1</td>
+    <td>r2c2</td>
+  </tr>
+</table>
+```
+
+There are a few things to notice in these examples:
+
+1. If the template element has both `g-each` and `g-text` attributes,
+   then the template element will be used as the template for the
+   iterations.
+2. If the template element only has a `g-each` attribute, then the *parent
+   element's content* will be used as the template for the iterations.
+3. In either case 1 or 2, the content of the *parent element* will be
+   replaced with the rendered content.
+
 ### g-include
 `g-include` inserts the content of a fragment in place of the element's
 content. The value of `g-include` is a simple identifier in the form
