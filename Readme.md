@@ -106,6 +106,29 @@ of the available expressions, view their
 
 ## Supported Attributes
 
+### g-class
+`g-class` appends the result of an expression to the element's class
+attribute. For example, given the following HTML:
+
+```html
+<div g-class="foo.class" class="bar">placeholder</div>
+```
+
+The rendered template would be:
+
+```html
+<div class="bar foo">placeholder</div>
+```
+
+Where the expression `foo.class` evaluates to "foo".
+
+If the element does not already have a class attribute, the the
+attribute will be added.
+
+### g-classprepend
+`g-classprepend` works like `g-class` except it prepends the class
+attribute with the result of the `g-classprepend` expression.
+
 ### g-text
 `g-text` substitutes the result of an expression in place of the element's
 content. For example, given the following HTML:
@@ -193,6 +216,52 @@ There are a few things to notice in these examples:
    element's content* will be used as the template for the iterations.
 3. In either case 1 or 2, the content of the *parent element* will be
    replaced with the rendered content.
+
+`g-each` includes the following extra context on each iteration:
+
+```javascript
+{
+  iter: {
+    i: `number`,
+    odd: `boolean`,
+    even: `boolean`
+  }
+}
+```
+
+Thus, on the third iteration, the extra context would be:
+
+```javascript
+{
+  iter: {
+    i: 2,
+    odd: false,
+    even: true
+  }
+}
+```
+
+Combined with `g-class`, you can render the following template:
+
+```html
+<ul>
+    <li g-each="item in items"
+        g-text="item"
+        g-class="(iter.odd) ? 'odd' : 'even'">placeholder</li>
+  </ul>
+```
+
+Into:
+
+```html
+<ul>
+  <li class="even">list item 1</li>
+  <li class="odd">list item 2</li>
+  <li class="even">list item 3</li>
+</ul>
+```
+
+Given the same context as the first example in this section.
 
 ### g-include
 `g-include` inserts the content of a fragment in place of the element's

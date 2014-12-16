@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+
+  <p g-class="'afterFoo'" class="foo">foo</p>
+  <p g-class="foo.class" class="bar">bar</p>
+
+  <p g-classprepend="'beforeFoo is'" class="foo">foo</p>
+  <p g-classprepend="'one two'" class="bar">bar</p>
+
+  <ul>
+    <li g-each="item in items" g-text="item" g-class="(iter.odd) ? 'odd' : 'even'">foo</li>
+  </ul>
+
+  <table>
+    <tr g-each="row in rows" g-class="(iter.odd) ? 'odd' : 'even'">
+      <td g-text="row.cell1">foo</td>
+      <td g-text="row.cell2">foo</td>
+    </tr>
+  </table>
+
+
+</body>
+</html>
