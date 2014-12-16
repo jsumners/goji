@@ -263,6 +263,31 @@ Into:
 
 Given the same context as the first example in this section.
 
+### g-if
+`g-if` is *Goji's* conditional attribute. If the expression supplied
+in a `g-if` attribute value evaluates to `true` then the whole block
+will be parsed and rendered. If the expression evaluates to `false`,
+then the whole block will be removed without futher processing.
+
+For example:
+
+```html
+<div g-if="1 === 1">
+  <p g-text="'This will be rendered'">placeholder</p>
+  <p g-if="1 === 1" g-text="'As will this'">placeholder</p>
+  <p g-if="1 === 1">This will not</p>
+</div>
+```
+
+Will render to the following:
+
+```html
+<div>
+  <p>This will be rendered</p>
+  <p>As will this</p>
+</div>
+```
+
 ### g-include
 `g-include` inserts the content of a fragment in place of the element's
 content. The value of `g-include` is a simple identifier in the form

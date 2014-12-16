@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+
+  <div g-if="1 === 1">
+    <p g-text="'This will be rendered'">placeholder</p>
+    <p g-if="1 === 1" g-text="foo">Will be bar</p>
+  </div>
+
+  <div g-if="1 === 2">
+    <p g-text="'This will not be renderered'">placeholder</p>
+  </div>
+
+  <div g-if="foo === 'bar'" g-class="foo">
+    <p g-text="'This will also be rendered'">placeholder</p>
+  </div>
+
+</body>
+</html>
