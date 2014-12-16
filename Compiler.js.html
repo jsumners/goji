@@ -91,6 +91,64 @@ Compiler.prototype = {
 };
 
 /**
+ * Parses for elements that have a &lt;code>g-class&lt;/code> attribute and renders
+ * them. If present, the attribute will be evaluated as an expression and the
+ * result will be appended to the &lt;code>class&lt;/code> attribute (creating it
+ * if one does not already exist).
+ *
+ * @param {object} $ A cheerio object that respresents the template
+ * @param {object} context The context for the template actions
+ * @param {object} gContext A context of extra information provided by Goji
+ * @returns {object} The modified cheerio object
+ * @since 0.3.0
+ * @private
+ */
+Compiler.prototype._class = function _class($, context, gContext) {
+  var _$ = (typeof $ === 'function') ? $ : cheerio.load($.toString());
+  return _$('[g-class]').each(function gClass(i, elem) {
+    var $elem = _$(elem);
+    var expression = exprjs.parse($elem.attr('g-class'));
+    var result = exprjs.run(expression, context, gContext);
+
+    $elem.addClass(result);
+    $elem.removeAttr('g-class');
+
+    return $elem;
+  });
+};
+
+/**
+ * Parses for elements that have a &lt;code>g-classprepend&lt;/code> attribute and
+ * renders them. If present, the attribute will be evaluated as an expression
+ * and the result will be prepended to the &lt;code>class&lt;/code> attribute
+ * (creating it if one does not already exist).
+ *
+ * @param {object} $ A cheerio object that respresents the template
+ * @param {object} context The context for the template actions
+ * @param {object} gContext A context of extra information provided by Goji
+ * @returns {object} The modified cheerio object
+ * @since 0.3.0
+ * @private
+ */
+Compiler.prototype._classprepend = function _classprepend($, context, gContext) {
+  var _$ = (typeof $ === 'function') ? $ : cheerio.load($.toString());
+  return _$('[g-classprepend]').each(function gClassprepend(i, elem) {
+    var $elem = _$(elem);
+    var expression = exprjs.parse($elem.attr('g-classprepend'));
+    var result = exprjs.run(expression, context, gContext);
+    var classes = $elem.attr('class');
+
+    if (classes) {
+      $elem.attr('class', result + ' ' + classes);
+    } else {
+      $elem.addClass(result);
+    }
+
+    return $elem;
+  });
+};
+
+/**
  * &lt;p>Parses for elements that have a &lt;code>g-each&lt;/code> attribute and renders
  * them. If the element also has a &lt;code>g-text&lt;/code> attribute, then the
  * element is used as the template. Otherwise, the content of the parent
@@ -113,19 +171,21 @@ Compiler.prototype = {
  */
 Compiler.prototype._each = function _each($, context, gContext) {
   var self = this;
-  var iter = {
-    i: 0,
-    get odd() {
-      return (this.i % 2) !== 0;
-    },
-    get even() {
-      return (this.i % 2) === 0;
+  var iterContext = {
+    iter: {
+      i: 0,
+      get odd() {
+        return (this.i % 2) !== 0;
+      },
+      get even() {
+        return (this.i % 2) === 0;
+      }
     }
   };
 
   return $('[g-each]').each(function gEach(i, elem) {
     // This thing is a mess
-    iter.i = 0;
+    iterContext.iter.i = 0;
     var $elem = $(elem);
     var parts = $elem.attr('g-each').split(' in ').map(function(val) {
       return val.trim();
@@ -135,7 +195,7 @@ Compiler.prototype._each = function _each($, context, gContext) {
     var expr = exprjs.parse(parts[1]);
     var list = exprjs.run(expr, context, gContext);
 
-    // Evaluate the subsitution expression if it is directly on the element
+    // Evaluate the substitution expression if it is directly on the element
     var gText = $elem.attr('g-text');
     if (gText) {
       var expr2 = exprjs.parse($elem.attr('g-text'));
@@ -152,25 +212,38 @@ Compiler.prototype._each = function _each($, context, gContext) {
     var $node = $elem.clone();
     $parent.html('');
 
+    var parseClasses = function() {
+      var result = $node;
+      if ($node.attr('g-class')) {
+        result = self._class($node, _context, iterContext);
+      } else if ($node.attr('g-classprepend')) {
+        result = self._classprepend($node, _context, iterContext);
+      }
+
+      return result;
+    };
+
     var iterRender = function(){};
     if (gText) {
       iterRender = function iterRender1(item) {
         _context[varName] = item;
-        var result = exprjs.run(expr2, _context, iter);
+        var result = exprjs.run(expr2, _context, iterContext);
         $node.html(result);
-        $parent.append($node.clone());
+        var _$node = parseClasses();
+        $parent.append(_$node.clone());
 
-        iter.i += 1;
+        iterContext.iter.i += 1;
       };
     } else {
       var innerTemplate = $node.html();
       iterRender = function iterRender2(item) {
         _context[varName] = item;
-        var result = self._render(innerTemplate, _context, iter);
+        var result = self._render(innerTemplate, _context, iterContext);
         $node.html(result);
-        $parent.append($node.clone());
+        var _$node = parseClasses();
+        $parent.append(_$node.clone());
 
-        iter.i += 1;
+        iterContext.iter.i += 1;
       };
     }
 
@@ -285,6 +358,8 @@ Compiler.prototype._render = function _render(template, context, gContext) {
   var $ = cheerio.load(template);
 
   this._each($, context, gContext); // Should be parsed first
+  this._class($, context, gContext);
+  this._classprepend($, context, gContext);
   this._text($, context, gContext);
 
   return $.html();
@@ -382,7 +457,7 @@ exports = module.exports = Compiler;</code></pre>
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha11</a> on Thu Dec 11 2014 22:11:19 GMT-0500 (EST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha11</a> on Mon Dec 15 2014 22:58:03 GMT-0500 (EST)
 </footer>
 
 <script> prettyPrint(); </script>
