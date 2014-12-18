@@ -58,6 +58,10 @@ console.log(renderer(context));
 
 # Compiler Options
 
+*Goji's* compiler will load templates based on name when parsing
+`g-include` or `g-replace` attributes, and when using the
+`loadTemplateNamed(name)` method.
+
 By default, the compiler will look for templates with a file extension of
 ".html" in an "html" directory that is in the same directory as your
 project's `node_modules` directory. If you need to change this behavior, you
