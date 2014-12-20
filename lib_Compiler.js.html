@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Compiler.js</title>
+    <title>JSDoc: Source: lib/Compiler.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Compiler.js</h1>
+    <h1 class="page-title">Source: lib/Compiler.js</h1>
 
     
 
@@ -28,6 +28,8 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
 
+var NodeCache = require('node-cache');
+var sha256 = require('js-sha256').sha256;
 var cheerio = require('cheerio');
 var exprjs = new (require('exprjs'))();
 var fs = require('fs');
@@ -35,6 +37,7 @@ var path = require('path');
 
 /**
  * Returns the first directory where a node_modules directory exists.
+ * @private
  */
 function basePath() {
   var _path = __dirname;
@@ -53,16 +56,15 @@ function basePath() {
 }
 
 function extendObj(a, b) {
+  if (!b) {
+    return;
+  }
+
   Object.keys(b).forEach(function keyIterator(val) {
     if (a.hasOwnProperty(val)) {
       a[val] = b[val];
     }
   });
-}
-
-function loadTemplateNamed(name) {
-  // TODO: cache these?
-  return fs.readFileSync(path.resolve(name)).toString();
 }
 
 /**
@@ -74,20 +76,57 @@ function loadTemplateNamed(name) {
  */
 function Compiler(options) {
   if (! (this instanceof Compiler)) {
-    return new Compiler();
+    return new Compiler(options);
   }
+  var self = Object.getPrototypeOf(this);
 
   if (options) {
-    var self = Object.getPrototypeOf(this);
     extendObj(self.options, options);
+  }
+
+  if (self.options.cache) {
+    self._cache = new NodeCache({
+      stdTTL: self.options.cacheTTL,
+      checkperiod: 0 // Needs to be 0 to prevent node-cache from
+      // causing Goji to hang indefinitely
+    });
   }
 }
 
+/**
+ * &lt;p>An object literal that has the following properties:&lt;/p>
+ * &lt;ul>
+ *   &lt;li>
+ *     &lt;code>cache&lt;/code>: Set to &lt;code>true&lt;/code> (default) to enable
+ *     caching of compiled templates. Set to &lt;code>false&lt;/code> to compile
+ *     templates every load.
+ *   &lt;/li>
+ *   &lt;li>
+ *     &lt;code>cacheTTL&lt;/code>: Time, in seconds, to keep templates in the cache.
+ *     Default value is 300 (5 minutes).
+ *   &lt;/li>
+ *   &lt;li>
+ *     &lt;code>templatesDir&lt;/code>: The location where templates are stored.
+ *     This should be the full path (use `path.resolve`). If it is not present,
+ *     then it will be set to an "html" directory that is in the same
+ *     directory as a node_modules directory.
+ *   &lt;/li>
+ *   &lt;li>
+ *     &lt;code>templatesExt&lt;/code>: The file extension used on template files.
+ *     This defaults to ".html". Note that it should include the leading dot.
+ *   &lt;/li>
+ * &lt;/ul>
+ * @typedef {object} Compiler~Options
+ */
+
 Compiler.prototype = {
   options: {
+    cache: true,
+    cacheTTL: 300,
     templatesDir: path.resolve(basePath() + '/html'),
     templatesExt: '.html'
-  }
+  },
+  _cache: {}
 };
 
 /**
@@ -255,6 +294,17 @@ Compiler.prototype._each = function _each($, context, gContext) {
 };
 
 /**
+ * If caching is enabled, this method can be used to clear the cache.
+ *
+ * @since 0.5.0
+ */
+Compiler.prototype.emptyCache = function emptyCache() {
+  if (this.options.cache) {
+    this._cache.flushAll();
+  }
+};
+
+/**
  * Parses for &lt;code>g-if&lt;/code> conditional blocks. If the expression
  * evalutates to true, then the block will be rendered. Otherwise, the block
  * will be completely removed.
@@ -349,9 +399,7 @@ Compiler.prototype._ir = function _ir($, attrName, action) {
       return elem.trim();
     });
 
-    var child = loadTemplateNamed(
-      self.options.templatesDir + '/' + parts[0] + self.options.templatesExt
-    );
+    var child = self.loadTemplateNamed(parts[0]);
 
     var parsedChild = self._parse(child);
     var $newContent = $(parts[1], parsedChild);
@@ -360,6 +408,39 @@ Compiler.prototype._ir = function _ir($, attrName, action) {
 
     return $elem.html();
   });
+};
+
+/**
+ * Looks for a file in the templates direcory with the given name. If the
+ * file exists, it will be loaded and returned as a string.
+ *
+ * @param {string} name The name of the template to load
+ * @returns {string | null} The template or &lt;code>null&lt;/code> (wasn't found)
+ * @since 0.5.0
+ */
+Compiler.prototype.loadTemplateNamed = function loadTemplateNamed(name) {
+  var result;
+  var fullPath = path.resolve(
+    this.options.templatesDir + '/' + name + this.options.templatesExt
+  );
+
+  if (!fs.existsSync(fullPath)) {
+    return null;
+  }
+
+  if (this.options.cache) {
+    result = this._cache.get(fullPath);
+    if (result.hasOwnProperty(fullPath)) {
+      result = result[fullPath];
+    } else {
+      result = fs.readFileSync(fullPath).toString();
+      this._cache.set(fullPath, result);
+    }
+  } else {
+    result = fs.readFileSync(fullPath).toString();
+  }
+
+  return result;
 };
 
 /**
@@ -432,23 +513,6 @@ Compiler.prototype._text = function _text($, context, gContext) {
  */
 
 /**
- * &lt;p>An object literal that has the following properties:&lt;/p>
- * &lt;ul>
- *   &lt;li>
- *     &lt;code>templatesDir&lt;/code>: The location where templates are stored.
- *     This should be the full path (use `path.resolve`). If it is not present,
- *     then it will be set to an "html" directory that is in the same
- *     directory as a node_modules directory.
- *   &lt;/li>
- *   &lt;li>
- *     &lt;code>templatesExt&lt;/code>: The file extension used on template files.
- *     This defaults to ".html". Note that it should include the leading dot.
- *   &lt;/li>
- * &lt;/ul>
- * @typedef {object} Compiler~Options
- */
-
-/**
  * Parses a given &lt;code>template&lt;/code> for &lt;code>g-include&lt;/code> and
  * &lt;code>g-replace&lt;/code> blocks. Said blocks are dealt with appropriately.
  *
@@ -466,7 +530,20 @@ Compiler.prototype.compile = function compile(template, options) {
     extendObj(self.options, options);
   }
 
-  var compiledTemplate = self._parse(template);
+  var compiledTemplate;
+  if (self.options.cache) {
+    var hash = sha256(template.toString());
+    var result = self._cache.get(hash);
+
+    if (result.hasOwnProperty(hash)) {
+      compiledTemplate = result[hash];
+    } else {
+      compiledTemplate = self._parse(template);
+      self._cache.set(hash, compiledTemplate);
+    }
+  } else {
+    compiledTemplate = self._parse(template);
+  }
 
   return function(context, options) {
     return self._render(compiledTemplate, context);
@@ -483,13 +560,13 @@ exports = module.exports = Compiler;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Compiler.html">Compiler</a></li></ul><h3>Global</h3><ul><li><a href="global.html#basePath">basePath</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Compiler.html">Compiler</a></li><li><a href="Gogi.html">Gogi</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha11</a> on Tue Dec 16 2014 14:34:29 GMT-0500 (EST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha11</a> on Sat Dec 20 2014 14:13:57 GMT-0500 (EST)
 </footer>
 
 <script> prettyPrint(); </script>

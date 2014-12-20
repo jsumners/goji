@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Compiler</title>
+    <title>JSDoc: Class: Gogi</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Compiler</h1>
+    <h1 class="page-title">Class: Gogi</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-        Compiler
+        Gogi
         </h2>
         
     
@@ -45,7 +45,7 @@
         <h2>Constructor</h2>
         
 
-        <h4 class="name" id="Compiler"><span class="type-signature"></span>new Compiler<span class="signature">(options)</span><span class="type-signature"> &rarr; {<a href="Compiler.html">Compiler</a>}</span></h4>
+        <h4 class="name" id="Gogi"><span class="type-signature"></span>new Gogi<span class="signature">(options)</span><span class="type-signature"> &rarr; {<a href="Gogi.html">Gogi</a>}</span></h4>
 
         
     
@@ -54,7 +54,9 @@
 
     
     <div class="description">
-        Provides methods for parsing, compiling, and rendering templates.
+        Goji is a template engine inspired by
+<a href="http://thymeleaf.org/">Thymeleaf</a>. It uses regular HTML
+as the template "language".
     </div>
     
 
@@ -95,13 +97,19 @@
 
             <td class="type">
             
+                
+<span class="param-type">Complier~Options</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Defines the options Goji will use during
+       compilation and rendering</td>
         </tr>
 
     
@@ -141,7 +149,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_Compiler.js.html">lib/Compiler.js</a>, <a href="lib_Compiler.js.html#line49">line 49</a>
+        <a href="goji.js.html">goji.js</a>, <a href="goji.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -175,7 +183,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="Compiler.html">Compiler</a></span>
+<span class="param-type"><a href="Gogi.html">Gogi</a></span>
 
 
     </dd>
@@ -219,8 +227,7 @@
 
     
     <div class="description">
-        Parses a given <code>template</code> for <code>g-include</code> and
-<code>g-replace</code> blocks. Said blocks are dealt with appropriately.
+        Takes a string template and parses it for includes.
     </div>
     
 
@@ -272,7 +279,7 @@
 
             
 
-            <td class="description last">The template to compile</td>
+            <td class="description last">An HTML document or snippet</td>
         </tr>
 
     
@@ -295,7 +302,9 @@
 
             
 
-            <td class="description last">Options to be used by the compiler</td>
+            <td class="description last">Defines the options Goji will use during
+       compilation and rendering. Note: this will overwrite whatever
+       options were specified in the initial constructor.</td>
         </tr>
 
     
@@ -335,7 +344,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_Compiler.js.html">lib/Compiler.js</a>, <a href="lib_Compiler.js.html#line496">line 496</a>
+        <a href="goji.js.html">goji.js</a>, <a href="goji.js.html#line32">line 32</a>
     </li></ul></dd>
     
 
@@ -361,11 +370,6 @@
     <h5>Returns:</h5>
     
             
-<div class="param-desc">
-    A function to use for rendering the
-         compiled template
-</div>
-
 
 
 <dl>
@@ -400,7 +404,8 @@
 
     
     <div class="description">
-        If caching is enabled, this method can be used to clear the cache.
+        Clears Goji's internal cache of templates. Does nothing if you disabled
+caching.
     </div>
     
 
@@ -419,9 +424,6 @@
 
     
 
-    
-    <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>0.5.0</li></dd>
     
 
     
@@ -447,7 +449,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_Compiler.js.html">lib/Compiler.js</a>, <a href="lib_Compiler.js.html#line273">line 273</a>
+        <a href="goji.js.html">goji.js</a>, <a href="goji.js.html#line40">line 40</a>
     </li></ul></dd>
     
 
@@ -489,8 +491,10 @@
 
     
     <div class="description">
-        Looks for a file in the templates direcory with the given name. If the
-file exists, it will be loaded and returned as a string.
+        Looks for a template with the given name in the templates directory
+(as specified by the <a href="Compiler.html#Options">Compiler~Options</a>). Once found, the template
+is read in and returned as a string. This string can then be used
+with the Goji#compile method.
     </div>
     
 
@@ -542,7 +546,8 @@ file exists, it will be loaded and returned as a string.
 
             
 
-            <td class="description last">The name of the template to load</td>
+            <td class="description last">The name of a template. E.g. if you have a template
+       file "foo.html", you would simply provide "foo" as the name</td>
         </tr>
 
     
@@ -557,9 +562,6 @@ file exists, it will be loaded and returned as a string.
 
     
 
-    
-    <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>0.5.0</li></dd>
     
 
     
@@ -585,7 +587,7 @@ file exists, it will be loaded and returned as a string.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_Compiler.js.html">lib/Compiler.js</a>, <a href="lib_Compiler.js.html#line393">line 393</a>
+        <a href="goji.js.html">goji.js</a>, <a href="goji.js.html#line55">line 55</a>
     </li></ul></dd>
     
 
@@ -612,7 +614,8 @@ file exists, it will be loaded and returned as a string.
     
             
 <div class="param-desc">
-    The template or <code>null</code> (wasn't found)
+    The template as a string or null if the template
+         could not be found
 </div>
 
 
@@ -640,266 +643,6 @@ file exists, it will be loaded and returned as a string.
         </dl>
     
 
-    
-        <h3 class="subsection-title">Type Definitions</h3>
-
-        <dl>
-                
-<dt>
-    <h4 class="name" id="Options">Options</h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        <p>An object literal that has the following properties:</p>
-<ul>
-  <li>
-    <code>cache</code>: Set to <code>true</code> (default) to enable
-    caching of compiled templates. Set to <code>false</code> to compile
-    templates every load.
-  </li>
-  <li>
-    <code>cacheTTL</code>: Time, in seconds, to keep templates in the cache.
-    Default value is 300 (5 minutes).
-  </li>
-  <li>
-    <code>templatesDir</code>: The location where templates are stored.
-    This should be the full path (use `path.resolve`). If it is not present,
-    then it will be set to an "html" directory that is in the same
-    directory as a node_modules directory.
-  </li>
-  <li>
-    <code>templatesExt</code>: The file extension used on template files.
-    This defaults to ".html". Note that it should include the leading dot.
-  </li>
-</ul>
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">object</span>
-
-
-            </li>
-        </ul>
-    
-
-    
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_Compiler.js.html">lib/Compiler.js</a>, <a href="lib_Compiler.js.html#line68">line 68</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-</dd>
-
-            
-                
-<dt>
-    
-        
-
-        <h4 class="name" id="RenderFunction"><span class="type-signature"></span>RenderFunction<span class="signature">(context, options)</span><span class="type-signature"></span></h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Returned from the <a href="Compiler.html#compile">Compiler#compile</a> method when a template has been
-compiled. This function allows you to render the compiled template
-with substitued values.
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>context</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">An object of values that will be substituted in
-       the rendered template</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Not used (yet)</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_Compiler.js.html">lib/Compiler.js</a>, <a href="lib_Compiler.js.html#line476">line 476</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-            </dl>
     
 
     
