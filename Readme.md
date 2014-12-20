@@ -1,7 +1,8 @@
 # Goji
 
 *Goji* is a template engine for [Node.js](https://nodejs.org/) that conforms 
-to the [Hapi](https://hapijs.com/) view engine requirements.
+to the [Hapi](https://hapijs.com/) view engine
+[requirements](http://hapijs.com/api/8.0.0#serverviewsoptions).
 
 *Goji* was inspired by [Thymeleaf](https://www.thymeleaf.org/). The name was
 picked from Wikipedia's [list of herbs](https://en.wikipedia.org/wiki/Category:Herbs)
@@ -9,6 +10,9 @@ based on whimsy and availability.
 
 *Goji's* templates are (mostly) valid HTML. *Goji* templates rely on custom
 attributes that are replaced during the compilation and rendering process.
+
+For the API documentation see --
+[http://jsumners.github.io/goji/Goji.html](http://jsumners.github.io/goji/Goji.html)
 
 # Install
 
@@ -38,9 +42,9 @@ $ npm install --save goji
 ## Processing
 
 ```javascript
-var goji = require('goji');
-var fs = require('fs');
-var template = fs.readFileSync('./template.html');
+var Goji = require('goji');
+var goji = new Goji();
+var template = goji.loadTemplateNamed('template');
 
 var renderer = goji.compile(template);
 var context = {
@@ -64,10 +68,34 @@ console.log(renderer(context));
 
 By default, the compiler will look for templates with a file extension of
 ".html" in an "html" directory that is in the same directory as your
-project's `node_modules` directory. If you need to change this behavior, you
+project's `node_modules` directory. Said templates will be cached for
+five minutes. If you need to change this behavior, you
 can use the
 [Compiler Options](http://jsumners.github.io/goji/Compiler.html#Options)
-object.
+object:
+
+* `cache`: Set to `true` (default) to enable caching of compiled templates.
+  Set to `false` to compile templates every load.
+* `cacheTTL`: Time, in seconds, to keep templates in the cache.
+  Default value is 300 (5 minutes).
+* `templatesDir`: The location where templates are stored. This should be
+  the full path (use `path.resolve`). If it is not present, then it will
+  be set to an "html" directory that is in the same directory as a
+  `node_modules` directory.
+* `templatesExt`: The file extension used on template files. This defaults
+  to ".html". Note that it should include the leading dot.
+
+```javascript
+{
+  cache: true,
+  cacheTTL: 300,
+  templatesDir: '/path/to/your/templates/directory',
+  templatesExt: '.html'
+}
+```
+
+The compiler options can be passed to the *Goji* constructor, or to the
+`compile` method.
 
 # Template Language
 
