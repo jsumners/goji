@@ -4,7 +4,7 @@
   "description": "An HTML templating engine inspired by Thymeleaf",
   "main": "goji.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cd test && ../node_modules/.bin/lab -l unit.js"
   },
   "author": "James Sumners",
   "license": "MIT",
@@ -31,10 +31,14 @@
     "node-cache": "^1.0.3"
   },
   "devDependencies": {
+    "code": "^1.2.1",
     "grunt": "^0.4.5",
     "grunt-github-pages": "0.0.4",
     "grunt-shell": "^1.1.1",
     "jsdoc": "^3.3.0-alpha11",
-    "load-grunt-tasks": "^1.0.0"
+    "lab": "^5.1.0",
+    "load-grunt-tasks": "^1.0.0",
+    "xmldom": "^0.1.19",
+    "xpath": "0.0.8"
   }
 }

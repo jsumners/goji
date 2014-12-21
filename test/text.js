@@ -19,4 +19,4 @@ var context = {
   answer: 42
 };
 
-console.log( render(context) );
+exports = module.exports = render(context);

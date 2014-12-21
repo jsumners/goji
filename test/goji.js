@@ -17,4 +17,4 @@ var context = {
 
 var template = goji.loadTemplateNamed('text');
 var render = goji.compile(template);
-console.log( render(context) );
+exports = module.exports = render(context);

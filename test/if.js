@@ -9,4 +9,4 @@ var render = compiler.compile(
   fs.readFileSync('./html/if.html')
 );
 
-console.log( render({foo: 'bar'}) );
+exports = module.exports = render({foo: 'bar'});

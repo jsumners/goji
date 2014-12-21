@@ -21,4 +21,4 @@ var context = {
   ]
 };
 
-console.log( render(context) );
+exports = module.exports = render(context);

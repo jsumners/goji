@@ -8,4 +8,5 @@ var Compiler = require('../lib/Compiler'),
 var render = compiler.compile(
   fs.readFileSync('./html/replace.html')
 );
-render();
+
+exports = module.exports = render();
