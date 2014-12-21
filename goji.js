@@ -9,12 +9,12 @@ var compiler;
  *
  * @param {Complier~Options} options Defines the options Goji will use during
  *        compilation and rendering
- * @returns {Gogi}
+ * @returns {Goji}
  * @constructor
  */
-function Gogi(options) {
-  if (! (this instanceof Gogi)) {
-    return new Gogi(options);
+function Goji(options) {
+  if (! (this instanceof Goji)) {
+    return new Goji(options);
   }
 
   compiler = new Compiler(options);
@@ -29,7 +29,7 @@ function Gogi(options) {
  *        options were specified in the initial constructor.
  * @returns {Compiler~RenderFunction}
  */
-Gogi.prototype.compile = function gojiCompile(template, options) {
+Goji.prototype.compile = function gojiCompile(template, options) {
   return compiler.compile(template, options);
 };
 
@@ -37,7 +37,7 @@ Gogi.prototype.compile = function gojiCompile(template, options) {
  * Clears Goji's internal cache of templates. Does nothing if you disabled
  * caching.
  */
-Gogi.prototype.emptyCache = function gojiEmptyCache() {
+Goji.prototype.emptyCache = function gojiEmptyCache() {
   compiler.emptyCache();
 };
 
@@ -52,8 +52,8 @@ Gogi.prototype.emptyCache = function gojiEmptyCache() {
  * @returns {string|null} The template as a string or null if the template
  *          could not be found
  */
-Gogi.prototype.loadTemplateNamed = function gogiLoadTemplate(name) {
+Goji.prototype.loadTemplateNamed = function gogiLoadTemplate(name) {
   return compiler.loadTemplateNamed(name);
 };
 
-exports = module.exports = Gogi;
+exports = module.exports = Goji;
