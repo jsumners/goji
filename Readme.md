@@ -138,6 +138,50 @@ of the available expressions, view their
 
 ## Supported Attributes
 
+### g-attr
+`g-attr` allows you to modify any generic attribute. `g-attr`
+attribute values are an expression in the form:
+
+* `value`: where `value` is the name of an attribute to modify/add.
+  For example: `g-attr="href"`. This is a shortcut for a single string
+  expression
+* `'value'`: same as above, but as an actual string expression
+* `['value', 'value', ...]`: an array of attribute names to modify/add.
+  For example: `g-attr="['href', 'data-foo']"`
+
+Each named attribute in the `g-attr` expression will take its value from
+an attribute, who's value is an expression, named in the format
+`g-attr-attributeName`. For example: `g-attr="data-foo"` will get the
+value for attribute `data-foo` from the expression in the value of the
+`g-attr-data-foo` attribute.
+
+Thus, the following template:
+
+```html
+<a g-attr="['href', 'id']" g-attr-href="foo.url" g-attr-id="foo.id">foo</a>
+```
+
+With the context:
+
+```javascript
+{
+  foo: {
+    url: 'http://example.com/foo',
+    id: 'foobar'
+  }
+}
+```
+
+Will render to:
+
+```html
+<a href="http://example.com/foo" id="foobar">foo</a>
+```
+
+**Note:** if you modify the `class` attribute with this method then
+it will overwrite any class names in a pre-existing class attribute.
+To append or prepend classes, use `g-class` and `g-classprepend`.
+
 ### g-class
 `g-class` appends the result of an expression to the element's class
 attribute. For example, given the following HTML:

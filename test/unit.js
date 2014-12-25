@@ -268,3 +268,40 @@ lab.suite('replace', function() {
     done();
   });
 });
+
+// Testing attr.js
+lab.suite('attr', function() {
+  var output = require('./attr.js');
+  var doc = new Dom().parseFromString(output);
+
+  var peles = xpath.select('//p', doc);
+  lab.test('should have 3 p elements', function(done) {
+    Code.expect(peles.length).to.equal(3);
+    done();
+  });
+
+  lab.test('first p should have an id attribute with value `foo`', function(done) {
+    Code.expect(peles[0].getAttribute('id')).to.equal('foo');
+    done();
+  });
+
+  lab.test('second p should have an id attribute with value `bar`', function(done) {
+    Code.expect(peles[1].getAttribute('id')).to.equal('bar');
+    done();
+  });
+
+  lab.test('third p should have an id attribute with value `baz`', function(done) {
+    Code.expect(peles[2].getAttribute('id')).to.equal('baz');
+    done();
+  });
+
+  lab.test('third p should have a data-foo attribute with value `bazfoo`', function(done) {
+    Code.expect(peles[2].getAttribute('data-foo')).to.equal('bazfoo');
+    done();
+  });
+
+  lab.test('third p should have a class attribute with the value `classy`', function(done) {
+    Code.expect(peles[2].getAttribute('class')).to.equal('classy');
+    done();
+  });
+});
