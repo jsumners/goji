@@ -402,6 +402,61 @@ example as in `g-include` the rendered template would be:
 </div>
 ```
 
+### g-partial
+`g-partial` is similar to `g-include` and `g-replace`. The difference is
+that `g-partial` is 1) processed during the render phase and 2) the
+attribute value is an expression. The result of the expression is expected
+to be the name of another template file. Said template is then loaded,
+rendered, and injected as the body of the element upon which the
+`g-partial` attribute is present.
+
+Thus, given the following document:
+
+```html
+<html>
+<head></head>
+<body>
+
+  <main g-partial="partial.name">
+    placeholder
+  </main>
+
+</body>
+</html>
+```
+
+With a partial template named "indexBody.html" in the templates directory
+who's content is merely:
+
+```html
+<p>Hello world!</p>
+```
+
+And a context of:
+
+```javascript
+{
+  partial: {
+    name: 'indexBody'
+  }
+}
+```
+
+Then the rendered document would be:
+
+```html
+<html>
+<head></head>
+<body>
+
+  <main>
+    <p>Hello world!</p>
+  </main>
+
+</body>
+</html>
+```
+
 # License
 
 [http://jsumners.mit-license.org](http://jsumners.mit-license.org/)

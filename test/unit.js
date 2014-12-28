@@ -305,3 +305,25 @@ lab.suite('attr', function() {
     done();
   });
 });
+
+// Testing partial.js
+lab.suite('partial', function() {
+  var output = require('./partial.js');
+  var doc = new Dom().parseFromString(output);
+
+  var divs = xpath.select('//div[@id]', doc);
+  lab.test('should have 2 div elements with id attributes', function(done) {
+    Code.expect(divs.length).to.equal(2);
+    done();
+  });
+
+  lab.test('div 1 should have id equal to `bar`', function(done) {
+    Code.expect(divs[0].getAttribute('id')).to.equal('bar');
+    done();
+  });
+
+  lab.test('div 2 should have id equal to `baz`', function(done) {
+    Code.expect(divs[1].getAttribute('id')).to.equal('baz');
+    done();
+  });
+});
