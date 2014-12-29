@@ -14,6 +14,9 @@ attributes that are replaced during the compilation and rendering process.
 For the API documentation see --
 [http://jsumners.github.io/goji/Goji.html](http://jsumners.github.io/goji/Goji.html)
 
+For a short example project see --
+[https://github.com/jsumners/goji-hapi-example](https://github.com/jsumners/goji-hapi-example)
+
 # Install
 
 ```bash
