@@ -7,7 +7,7 @@ var newLine = String.fromCharCode(10);
 
 // Load template based on name instead of manually doing it
 var time1 = new Date();
-var template = compiler.loadTemplateNamed('include');
+var template = compiler.loadTemplateNamed('include', false);
 var render = compiler.compile(template);
 var time2 = new Date();
 console.log( render() + newLine );
@@ -18,7 +18,7 @@ console.log(
 
 // Step through to verify the cache is hit
 time1 = new Date();
-template = compiler.loadTemplateNamed('include');
+template = compiler.loadTemplateNamed('include', false);
 render = compiler.compile(template);
 time2 = new Date();
 console.log( render() +  newLine);

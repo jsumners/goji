@@ -85,6 +85,9 @@ object:
   the full path (use `path.resolve`). If it is not present, then it will
   be set to an "html" directory that is in the same directory as a
   `node_modules` directory.
+* `partialsDir`: The location where partial templates are stored. Partials
+  are snippets of html that will be included via the `g-partial`
+  attribute. The default value for this is `(templatesDir + '/partials')`.
 * `templatesExt`: The file extension used on template files. This defaults
   to ".html". Note that it should include the leading dot.
 
@@ -93,6 +96,7 @@ object:
   cache: true,
   cacheTTL: 300,
   templatesDir: '/path/to/your/templates/directory',
+  partialsDir: '/path/to/your/templates/partials/directory',
   templatesExt: '.html'
 }
 ```
@@ -459,6 +463,10 @@ Then the rendered document would be:
 </body>
 </html>
 ```
+
+**Note:** as of *Goji* version **0.8.0** the default path for partials
+is in a sub-directory of the main templates directory. The default name
+for this sub-directory is `partials`.
 
 # License
 

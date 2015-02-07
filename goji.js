@@ -53,7 +53,7 @@ Goji.prototype.emptyCache = function gojiEmptyCache() {
  *          could not be found
  */
 Goji.prototype.loadTemplateNamed = function gogiLoadTemplate(name) {
-  return compiler.loadTemplateNamed(name);
+  return compiler.loadTemplateNamed(name, false);
 };
 
 exports = module.exports = Goji;
