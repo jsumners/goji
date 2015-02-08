@@ -358,7 +358,7 @@ For example:
 <div g-if="1 === 1">
   <p g-text="'This will be rendered'">placeholder</p>
   <p g-if="1 === 1" g-text="'As will this'">placeholder</p>
-  <p g-if="1 === 1">This will not</p>
+  <p g-if="1 === 2">This will not</p>
 </div>
 ```
 
