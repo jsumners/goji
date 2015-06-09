@@ -223,6 +223,28 @@ lab.suite('text', function() {
   });
 });
 
+// Testing html.js
+lab.suite('html', function() {
+  var output = require('./html.js');
+  var doc = new Dom().parseFromString(output);
+
+  var divs = xpath.select('//div', doc);
+  lab.test('should have 1 div elements', function(done) {
+    Code.expect(divs.length).to.equal(1);
+    done();
+  });
+
+  lab.test('div should have 3 children', function(done) {
+    Code.expect(divs[0].childNodes.length).to.equals(3);
+    done();
+  });
+
+  lab.test('second child should be em tag', function(done) {
+    Code.expect(divs[0].childNodes['1'].tagName).to.equal('em');
+    done();
+  });
+});
+
 // Testing include.js
 lab.suite('include', function() {
   var output = require('./include.js');

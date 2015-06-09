@@ -226,6 +226,24 @@ The rendered template would be:
 <p>Hello <span>world</span>!</p>
 ```
 
+### g-html
+`g-html` works the same as `g-text` except it renders embedded HTML.
+For example, given the following HTML:
+
+```html
+<p>Hello <span g-html="'<strong>world</strong>'">??</span>!</p>
+```
+
+The rendered template would be:
+
+```html
+<p>Hello <span><strong>world</strong></span>!</p>
+```
+
+With the browser rendering the `strong` element appropriately, e.g. **world**.
+Whereas with `g-text`, the browser would render the text
+"`<strong>world</strong>`".
+
 ### g-each
 `g-each` is used to iterate over an array. It uses a simple expression to
 select the array and name the iteration variable. The expression is in
