@@ -12,7 +12,11 @@ var render = compiler.compile(
 var context = {
   foo: {
     bar: 'value <em>of</em> foo.bar'
-  }
+  },
+  rows: [
+    {text: '<em>row1</em>'},
+    {text: '<strong>row2</strong>'}
+  ]
 };
 
 exports = module.exports = render(context);
