@@ -228,8 +228,10 @@ lab.suite('html', function() {
   var output = require('./html.js');
   var doc = new Dom().parseFromString(output);
 
+  console.log(output);
+
   var divs = xpath.select('//div', doc);
-  lab.test('should have 1 div elements', function(done) {
+  lab.test('should have 1 div element', function(done) {
     Code.expect(divs.length).to.equal(1);
     done();
   });
@@ -241,6 +243,43 @@ lab.suite('html', function() {
 
   lab.test('second child should be em tag', function(done) {
     Code.expect(divs[0].childNodes['1'].tagName).to.equal('em');
+    done();
+  });
+
+  var sections = xpath.select('//section', doc);
+  lab.test('should have 1 section element', function(done) {
+    Code.expect(sections.length).to.equal(1);
+    done();
+  });
+
+  lab.test('should have 2 paragraphs in the section', function(done) {
+    Code.expect(sections[0].childNodes.length).to.equal(2);
+    Code.expect(sections[0].childNodes['0'].tagName).to.equal('p');
+    Code.expect(sections[0].childNodes['1'].tagName).to.equal('p');
+    done();
+  });
+
+  lab.test('first p should have a span element', function(done) {
+    var span = sections[0].childNodes['0'].childNodes['1'];
+    Code.expect(span.tagName).to.equal('span');
+
+    lab.test('that has an em element', function(done) {
+      Code.expect(span.childNodes['0'].tagName).to.equal('em');
+      done();
+    });
+
+    done();
+  });
+
+  lab.test('second p should have a span element', function(done) {
+    var span = sections[0].childNodes['1'].childNodes['1'];
+    Code.expect(span.tagName).to.equal('span');
+
+    lab.test('that has a strong element', function(done) {
+      Code.expect(span.childNodes['0'].tagName).to.equal('strong');
+      done();
+    });
+
     done();
   });
 });
