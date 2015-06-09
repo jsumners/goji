@@ -15,6 +15,5 @@
   "strict": true,
   "globalstrict": true,
   "node": true,
-  "esnext": true,
-  "es5": true
+  "esnext": true
 }
