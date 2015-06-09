@@ -5,5 +5,10 @@
 
   <div g-html="foo.bar">This should be replaced with the value of foo.bar</div>
 
+  <section class="rows">
+    <p g-each="row in rows">
+      <span g-html="row.text">foo</span>
+    </p>
+  </section>
 </body>
 </html>
