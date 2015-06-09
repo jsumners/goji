@@ -39,36 +39,31 @@
     <div class="container-overview">
     
         
-<dt>
-    
-        
-        <h2>Constructor</h2>
-        
-
-        <h4 class="name" id="Goji"><span class="type-signature"></span>new Goji<span class="signature">(options)</span><span class="type-signature"> &rarr; {<a href="Goji.html">Goji</a>}</span></h4>
-
-        
-    
-</dt>
-<dd>
 
     
-    <div class="description">
-        Goji is a template engine inspired by
+
+    <h4 class="name" id="Goji"><span class="type-signature"></span>new Goji<span class="signature">(options)</span><span class="type-signature"> &rarr; {<a href="Goji.html">Goji</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Goji is a template engine inspired by
 <a href="http://thymeleaf.org/">Thymeleaf</a>. It uses regular HTML
 as the template "language".
-    </div>
-    
+</div>
 
-    
 
-    
 
-    
 
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -115,9 +110,10 @@ as the template "language".
     
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -161,20 +157,20 @@ as the template "language".
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 
 
 <dl>
@@ -189,10 +185,9 @@ as the template "language".
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
 
     
     </div>
@@ -212,34 +207,31 @@ as the template "language".
     
         <h3 class="subsection-title">Methods</h3>
 
-        <dl>
+        
             
-<dt>
-    
-        
-
-        <h4 class="name" id="compile"><span class="type-signature"></span>compile<span class="signature">(template, options)</span><span class="type-signature"> &rarr; {<a href="Compiler.html#RenderFunction">Compiler~RenderFunction</a>}</span></h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Takes a string template and parses it for includes.
-    </div>
-    
 
     
 
-    
+    <h4 class="name" id="compile"><span class="type-signature"></span>compile<span class="signature">(template, options)</span><span class="type-signature"> &rarr; {<a href="Compiler.html#~RenderFunction">Compiler~RenderFunction</a>}</span></h4>
 
     
 
+
+
+<div class="description">
+    Takes a string template and parses it for includes.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -292,7 +284,7 @@ as the template "language".
             <td class="type">
             
                 
-<span class="param-type"><a href="Compiler.html#Options">Compiler~Options</a></span>
+<span class="param-type"><a href="Compiler.html#~Options">Compiler~Options</a></span>
 
 
             
@@ -310,9 +302,10 @@ as the template "language".
     
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -356,20 +349,20 @@ as the template "language".
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 
 
 <dl>
@@ -378,46 +371,42 @@ as the template "language".
     </dt>
     <dd>
         
-<span class="param-type"><a href="Compiler.html#RenderFunction">Compiler~RenderFunction</a></span>
+<span class="param-type"><a href="Compiler.html#~RenderFunction">Compiler~RenderFunction</a></span>
 
 
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
 
         
             
-<dt>
-    
-        
-
-        <h4 class="name" id="emptyCache"><span class="type-signature"></span>emptyCache<span class="signature">()</span><span class="type-signature"></span></h4>
-
-        
-    
-</dt>
-<dd>
 
     
-    <div class="description">
-        Clears Goji's internal cache of templates. Does nothing if you disabled
+
+    <h4 class="name" id="emptyCache"><span class="type-signature"></span>emptyCache<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Clears Goji's internal cache of templates. Does nothing if you disabled
 caching.
-    </div>
-    
+</div>
 
-    
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
+
 
 
 <dl class="details">
@@ -461,52 +450,48 @@ caching.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
+
+
+
+
+
+
+
 
         
             
-<dt>
-    
-        
-
-        <h4 class="name" id="loadTemplateNamed"><span class="type-signature"></span>loadTemplateNamed<span class="signature">(name)</span><span class="type-signature"> &rarr; {string|null}</span></h4>
-
-        
-    
-</dt>
-<dd>
 
     
-    <div class="description">
-        Looks for a template with the given name in the templates directory
-(as specified by the <a href="Compiler.html#Options">Compiler~Options</a>). Once found, the template
+
+    <h4 class="name" id="loadTemplateNamed"><span class="type-signature"></span>loadTemplateNamed<span class="signature">(name)</span><span class="type-signature"> &rarr; {string|null}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Looks for a template with the given name in the templates directory
+(as specified by the <a href="Compiler.html#~Options">Compiler~Options</a>). Once found, the template
 is read in and returned as a string. This string can then be used
 with the <a href="Goji.html#compile">Goji#compile</a> method.
-    </div>
-    
+</div>
 
-    
 
-    
 
-    
 
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -553,9 +538,10 @@ with the <a href="Goji.html#compile">Goji#compile</a> method.
     
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -599,20 +585,20 @@ with the <a href="Goji.html#compile">Goji#compile</a> method.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     The template as a string or null if the template
          could not be found
@@ -635,12 +621,11 @@ with the <a href="Goji.html#compile">Goji#compile</a> method.
     </dd>
 </dl>
 
-        
-
     
-</dd>
 
-        </dl>
+
+
+        
     
 
     
@@ -659,10 +644,10 @@ with the <a href="Goji.html#compile">Goji#compile</a> method.
     <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Compiler.html">Compiler</a></li><li><a href="Goji.html">Goji</a></li></ul>
 </nav>
 
-<br clear="both">
+<br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha11</a> on Sun Feb 08 2015 10:22:09 GMT-0500 (EST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.1</a> on Tue Jun 09 2015 14:05:52 GMT-0400 (EDT)
 </footer>
 
 <script> prettyPrint(); </script>

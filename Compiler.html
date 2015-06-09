@@ -39,34 +39,29 @@
     <div class="container-overview">
     
         
-<dt>
-    
-        
-        <h2>Constructor</h2>
-        
-
-        <h4 class="name" id="Compiler"><span class="type-signature"></span>new Compiler<span class="signature">(options)</span><span class="type-signature"> &rarr; {<a href="Compiler.html">Compiler</a>}</span></h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Provides methods for parsing, compiling, and rendering templates.
-    </div>
-    
 
     
 
-    
+    <h4 class="name" id="Compiler"><span class="type-signature"></span>new Compiler<span class="signature">(options)</span><span class="type-signature"> &rarr; {<a href="Compiler.html">Compiler</a>}</span></h4>
 
     
 
+
+
+<div class="description">
+    Provides methods for parsing, compiling, and rendering templates.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -107,9 +102,10 @@
     
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -153,20 +149,20 @@
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 
 
 <dl>
@@ -181,10 +177,9 @@
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
 
     
     </div>
@@ -204,35 +199,32 @@
     
         <h3 class="subsection-title">Methods</h3>
 
-        <dl>
+        
             
-<dt>
-    
-        
-
-        <h4 class="name" id="compile"><span class="type-signature"></span>compile<span class="signature">(template, options)</span><span class="type-signature"> &rarr; {<a href="Compiler.html#RenderFunction">Compiler~RenderFunction</a>}</span></h4>
-
-        
-    
-</dt>
-<dd>
 
     
-    <div class="description">
-        Parses a given <code>template</code> for <code>g-include</code> and
+
+    <h4 class="name" id="compile"><span class="type-signature"></span>compile<span class="signature">(template, options)</span><span class="type-signature"> &rarr; {<a href="Compiler.html#~RenderFunction">Compiler~RenderFunction</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Parses a given <code>template</code> for <code>g-include</code> and
 <code>g-replace</code> blocks. Said blocks are dealt with appropriately.
-    </div>
-    
+</div>
 
-    
 
-    
 
-    
 
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -285,7 +277,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="Compiler.html#Options">Compiler~Options</a></span>
+<span class="param-type"><a href="Compiler.html#~Options">Compiler~Options</a></span>
 
 
             
@@ -301,9 +293,10 @@
     
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -347,20 +340,20 @@
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     A function to use for rendering the
          compiled template
@@ -374,45 +367,41 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="Compiler.html#RenderFunction">Compiler~RenderFunction</a></span>
+<span class="param-type"><a href="Compiler.html#~RenderFunction">Compiler~RenderFunction</a></span>
 
 
     </dd>
 </dl>
 
-        
-
     
-</dd>
+
+
 
         
             
-<dt>
-    
-        
-
-        <h4 class="name" id="emptyCache"><span class="type-signature"></span>emptyCache<span class="signature">()</span><span class="type-signature"></span></h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        If caching is enabled, this method can be used to clear the cache.
-    </div>
-    
 
     
 
-    
+    <h4 class="name" id="emptyCache"><span class="type-signature"></span>emptyCache<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
-    
 
-    
+
+<div class="description">
+    If caching is enabled, this method can be used to clear the cache.
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 <dl class="details">
@@ -421,7 +410,7 @@
 
     
     <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>0.5.0</li></dd>
+    <dd class="tag-since"><ul class="dummy"><li>0.5.0</li></ul></dd>
     
 
     
@@ -459,50 +448,46 @@
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
+
+
+
+
+
+
+
 
         
             
-<dt>
-    
-        
-
-        <h4 class="name" id="loadTemplateNamed"><span class="type-signature"></span>loadTemplateNamed<span class="signature">(name, isPartial)</span><span class="type-signature"> &rarr; {string|null}</span></h4>
-
-        
-    
-</dt>
-<dd>
 
     
-    <div class="description">
-        Looks for a file in the templates direcory with the given name. If the
+
+    <h4 class="name" id="loadTemplateNamed"><span class="type-signature"></span>loadTemplateNamed<span class="signature">(name, isPartial)</span><span class="type-signature"> &rarr; {string|null}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Looks for a file in the templates direcory with the given name. If the
 file exists, it will be loaded and returned as a string.
-    </div>
-    
+</div>
 
-    
 
-    
 
-    
 
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -573,9 +558,10 @@ file exists, it will be loaded and returned as a string.
     
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -584,7 +570,7 @@ file exists, it will be loaded and returned as a string.
 
     
     <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>0.5.0</li></dd>
+    <dd class="tag-since"><ul class="dummy"><li>0.5.0</li></ul></dd>
     
 
     
@@ -622,20 +608,20 @@ file exists, it will be loaded and returned as a string.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-    <h5>Returns:</h5>
-    
-            
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
 <div class="param-desc">
     The template or <code>null</code> (wasn't found)
 </div>
@@ -657,28 +643,25 @@ file exists, it will be loaded and returned as a string.
     </dd>
 </dl>
 
-        
-
     
-</dd>
 
-        </dl>
+
+
+        
     
 
     
         <h3 class="subsection-title">Type Definitions</h3>
 
-        <dl>
+        
                 
-<dt>
-    <h4 class="name" id="Options">Options</h4>
+<h4 class="name" id="~Options">Options</h4>
 
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        <p>An object literal that has the following properties:</p>
+
+
+
+<div class="description">
+    <p>An object literal that has the following properties:</p>
 <ul>
   <li>
     <code>cache</code>: Set to <code>true</code> (default) to enable
@@ -707,22 +690,22 @@ file exists, it will be loaded and returned as a string.
     This defaults to ".html". Note that it should include the leading dot.
   </li>
 </ul>
-    </div>
-    
+</div>
 
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
 <span class="param-type">object</span>
 
 
-            </li>
-        </ul>
-    
+        </li>
+    </ul>
 
-    
+
+
 
 
 <dl class="details">
@@ -766,41 +749,37 @@ file exists, it will be loaded and returned as a string.
 </dl>
 
 
-    
 
-    
-</dd>
+
+
 
             
                 
-<dt>
-    
-        
-
-        <h4 class="name" id="RenderFunction"><span class="type-signature"></span>RenderFunction<span class="signature">(context, options)</span><span class="type-signature"></span></h4>
-
-        
-    
-</dt>
-<dd>
 
     
-    <div class="description">
-        Returned from the <a href="Compiler.html#compile">Compiler#compile</a> method when a template has been
+
+    <h4 class="name" id="~RenderFunction"><span class="type-signature"></span>RenderFunction<span class="signature">(context, options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Returned from the <a href="Compiler.html#compile">Compiler#compile</a> method when a template has been
 compiled. This function allows you to render the compiled template
 with substitued values.
-    </div>
-    
+</div>
 
-    
 
-    
 
-    
 
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-        <h5>Parameters:</h5>
-        
 
 <table class="params">
     <thead>
@@ -870,9 +849,10 @@ with substitued values.
     
     </tbody>
 </table>
-    
 
-    
+
+
+
 
 
 <dl class="details">
@@ -916,22 +896,21 @@ with substitued values.
 </dl>
 
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
-</dd>
 
-            </dl>
+
+
+
+
+
+
+
+            
     
 
     
@@ -948,10 +927,10 @@ with substitued values.
     <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Compiler.html">Compiler</a></li><li><a href="Goji.html">Goji</a></li></ul>
 </nav>
 
-<br clear="both">
+<br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha11</a> on Sun Feb 08 2015 10:22:09 GMT-0500 (EST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.1</a> on Tue Jun 09 2015 14:05:51 GMT-0400 (EDT)
 </footer>
 
 <script> prettyPrint(); </script>
