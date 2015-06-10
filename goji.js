@@ -56,4 +56,8 @@ Goji.prototype.loadTemplateNamed = function gogiLoadTemplate(name) {
   return compiler.loadTemplateNamed(name, false);
 };
 
+Goji.prototype.registerPartial = function registerPartial(name, partial) {
+  return compiler.registerPartial(name, partial);
+};
+
 exports = module.exports = Goji;

@@ -1,18 +1,22 @@
 'use strict';
 
-var fs = require('fs');
+const fs = require('fs');
 
-var Compiler = require('../lib/Compiler'),
-    compiler = new Compiler({templatesDir: __dirname + '/html'});
+const Compiler = require('../lib/Compiler');
+const compiler = new Compiler();
 
-var render = compiler.compile(
-  fs.readFileSync('./html/partial.html')
-);
+const template = fs.readFileSync('./html/partial.html');
+const fooPartial = fs.readFileSync('./html/partials/foo.html');
+const parentPartial = '<div g-partial="bar">child partial</div>';
 
-var context = {
+compiler.registerPartial('foo', fooPartial);
+compiler.registerPartial('bar', '<section>bar</section>');
+compiler.registerPartial('parentPartial', parentPartial);
+
+const context = {
   partial: {
     name: 'foo'
   }
 };
-
-exports = module.exports = render(context);
+const doc = compiler.compile(template)(context);
+console.log(doc);

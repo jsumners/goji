@@ -10,7 +10,7 @@ var testScripts = grunt.file.expand({
 grunt.initConfig({
   shell: {
     cleanDoc: {
-      command: 'rm -rf doc/*'
+      command: 'rm -rf _doc/*'
     },
     doc: {
       command: './node_modules/.bin/jsdoc -c jsdoc.conf .'
@@ -22,7 +22,7 @@ grunt.initConfig({
       options: {
         commitMessage: 'Publishing new documentation'
       },
-      src: 'doc'
+      src: '_doc'
     }
   }
 });

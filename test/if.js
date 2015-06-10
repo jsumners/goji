@@ -1,12 +1,13 @@
 'use strict';
 
-var fs = require('fs');
+const fs = require('fs');
 
-var Compiler = require('../lib/Compiler'),
-    compiler = new Compiler({templatesDir: __dirname + '/html'});
+const Compiler = require('../lib/Compiler');
+const compiler = new Compiler({templatesDir: __dirname + '/html'});
 
-var render = compiler.compile(
+const render = compiler.compile(
   fs.readFileSync('./html/if.html')
 );
 
-exports = module.exports = render({foo: 'bar'});
+const doc = render({foo: 'bar'});
+console.log(doc);
