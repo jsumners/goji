@@ -1,6 +1,10 @@
 # Goji
 
-*Goji* is a template engine for [Node.js](https://nodejs.org/) that conforms 
+#### **2016-03-17:** Do not use this. I don't have time to fix the issues with it.
+#### Use [Marko](http://markojs.com/) instead. It is the closest thing to this project available in the Node ecosystem.
+
+----
+*Goji* is a template engine for [Node.js](https://nodejs.org/) that conforms
 to the [Hapi](https://hapijs.com/) view engine
 [requirements](http://hapijs.com/api/8.0.0#serverviewsoptions).
 
